@@ -21,6 +21,8 @@ struct ContentView: View {
                 ForEach(0..<9) { index in
                     ZStack {
                         Color.blue
+                        Color.white
+                            .opacity(moves[index] == "" ? 1 : 0)
                         Text(moves[index])
                             .font(.system(size: 60))
                             .foregroundColor(.white)
@@ -35,7 +37,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
+                    .rotation3DEffect(.degrees(moves[index] == "" ? 180 : 0), axis: (x: 0, y: 1, z: 0))
                 }
             }
         }
