@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var moves = Array(repeating: "", count: 9)
     @State private var xTurn = true
+    @State private var gameOver = false
+    @State private var winMessage = ""
     var body: some View {
         VStack {
             Text("Tic Tac Toe")
@@ -42,9 +44,33 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .alert(isPresented: $gameOver) {
+            Alert(title: Text(winMessage))
+        }
+        .onChange(of: moves) { oldValue, newValue in
+            checkForWinner()
+        }
     }
-}
 
+    private func checkForWinner() {
+        checkLine(a: 0, b: 1, c: 2)
+           checkLine(a: 3, b: 4, c: 5)
+           checkLine(a: 6, b: 7, c: 8)
+           checkLine(a: 0, b: 4, c: 8)
+           checkLine(a: 6, b: 4, c: 2)
+           if !(gameOver || moves.contains("")) {
+               winMessage = "Cat's Game!"
+               gameOver = true
+
+        }
+    }
+    private func checkLine(a: Int, b: Int, c: Int) {
+        if moves[a] != "" && moves[a] == moves[b] && moves[b] == moves[c] {
+                   winMessage = "\(moves[a]) is winner!"
+                   gameOver = true
+               }
+        }
+}
 #Preview {
     ContentView()
 }
